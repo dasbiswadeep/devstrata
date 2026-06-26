@@ -106,8 +106,8 @@ devstrata/
 │   ├── headroom-watchdog.sh       ← restarts Headroom + Ollama if either dies (KI-010 fix)
 │   ├── agent-isolate.sh           ← separates Hermes/OpenCode skill dirs (KI-006 fix)
 │   ├── wsl2-check.sh              ← Windows/WSL2 setup helper (KI-008 fix)
-│   └── test.sh                    ← run the test suite (56 test files, ~568 assertions)
-├── tests/                         ← integration + structural tests (56 test files)
+│   └── test.sh                    ← run the test suite (62 test files, ~614 assertions)
+├── tests/                         ← integration + structural tests (62 test files)
 │   ├── README.md                  ← full test catalog by category
 │   └── test_*.sh                  ← structure, syntax, json, yaml, mcp-gen, links, sources,
 │                                    no-personal-data, cornerstones, force/upgrade, idempotency,
@@ -244,6 +244,7 @@ Auto-adoption is a non-goal. Stability and understanding are goals.
 | [KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) | Honest limitations and weak points |
 | [MEMORY_DOMAINS.md](docs/MEMORY_DOMAINS.md) | Memory layer split: Mem0/Graphify/Obsidian |
 | [SOURCES.md](docs/SOURCES.md) | Every factual claim, with source URL + date verified |
+| [SUPERVISION.md](docs/SUPERVISION.md) | launchd/systemd templates for process supervision |
 
 ---
 
@@ -274,8 +275,6 @@ Auto-adoption is a non-goal. Stability and understanding are goals.
 - Headroom dies if Ollama goes offline → **mitigated by `headroom-watchdog.sh`** (auto-restarts both every 120s)
 
 See [KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) for full detail — every issue now lists its mitigation.
-
-See [KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) for full detail.
 
 ---
 
