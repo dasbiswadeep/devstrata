@@ -1,0 +1,52 @@
+# docker-compose.yml — devstrata --full and --pro profiles
+# Provides process supervision for the long-running services.
+# Addresses KNOWN_ISSUES KI-003 (no process supervision).
+#
+# Usage:
+#   docker compose up -d        # start all services (auto-restart on crash)
+#   docker compose ps           # status
+#   docker compose logs -f mem0 # tail logs
+#   docker compose down         # stop
+#
+# Requirements: Docker Desktop or Docker Engine + docker compose v2.
+
+services:
+  mem0:
+    # Mem0 self-hosted server — long-term agent memory
+    # Upstream: https://github.com/mem0ai/mem0
+    # If the image name changes upstream, update here (see scripts/update.sh)
+    image: mem0ai/mem0-server:latest
+    container_name: devstrata-mem0
+    ports:
+      - "3000:3000"
+    environment:
+      - MEM0_ENV=production
+      # Point Mem0's own LLM at the same backend the rest of the stack uses.
+      # For Ollama local:
+      - LLM_PROVIDER=ollama
+      - LLM_MODEL=qwen2.5-coder:14b
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      # For Claude, set instead:
+      # - LLM_PROVIDER=anthropic
+      # - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    volumes:
+      - mem0-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # HelixDB does not yet ship an official Docker image for the local dev
+  # server. Run it on the host instead:
+  #   helix start dev --disk    # port 6969
+  # The morning-startup.sh script handles this. When an official image
+  # lands upstream, add a helix service block here. Tracked in KNOWN_ISSUES KI-003.
+
+volumes:
+  mem0-data:
+    driver: local

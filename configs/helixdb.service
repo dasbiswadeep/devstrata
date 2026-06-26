@@ -1,0 +1,15 @@
+[Unit]
+Description=HelixDB local dev instance (devstrata)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/helix start dev --disk
+Restart=always
+RestartSec=5
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+StandardOutput=append:/var/log/helixdb.log
+StandardError=append:/var/log/helixdb.log
+
+[Install]
+WantedBy=multi-user.target

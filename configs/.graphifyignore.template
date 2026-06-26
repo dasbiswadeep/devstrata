@@ -1,0 +1,40 @@
+# .graphifyignore — copy to your project root and edit
+# Prevents Graphify from indexing files that should never enter the
+# codebase knowledge graph (secrets, build artifacts, vendored code).
+
+node_modules/
+dist/
+build/
+.git/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.env.*
+*.log
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+graphify-out/cost.json
+
+# Lockfiles (low signal, high noise)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+poetry.lock
+
+# Vendored / generated code (no architectural signal)
+vendor/
+third_party/
+*.min.js
+*.min.css
+*.generated.ts
+
+# Data files
+*.csv
+*.parquet
+*.sqlite
+*.db

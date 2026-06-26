@@ -1,0 +1,34 @@
+# Project: [YOUR PROJECT NAME]
+# Last updated: [DATE]
+# devstrata stack — edit this file with your project context
+
+## Stack
+- Language: [Python / TypeScript / etc.]
+- Framework: [FastAPI / React / etc.]
+- Database: [PostgreSQL / MySQL / etc.]
+- Messaging: [Kafka / RabbitMQ / NATS / etc.]
+- Infra: [AWS / GCP / local]
+- LLM: [Ollama local / Claude / etc.]
+
+## Rules
+- Write failing tests BEFORE implementation (TDD — no exceptions)
+- Query Graphify before answering codebase questions: `graphify query "<question>"`
+- Recall past decisions: `mem0 search "<question>" --user-id [YOUR_USER_ID]`
+- Keep functions under 40 lines
+- Use conventional commits format
+- Never commit .env files or API keys
+
+## Architecture
+- Knowledge graph: graphify-out/graph.json (run `graphify .` to build)
+- Agent memory: Mem0 on localhost:3000 (user-id: [YOUR_USER_ID])
+- Entity store: HelixDB on localhost:6969 (if using full/pro profile)
+- LLM backend: see headroom.env (one swap adapts all layers)
+
+## Phase State
+- GSD phase file: .gsd/STATE.md
+- Always check this before starting new work
+- Run /gsd-new-project for new features
+
+## Important Decisions
+<!-- Document key architectural decisions here so agents always know them -->
+<!-- Example: "We use async message consumers, never sync polling" -->

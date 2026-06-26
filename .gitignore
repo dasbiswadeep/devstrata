@@ -1,0 +1,44 @@
+# .gitignore — copy to your project root to avoid committing secrets + artifacts
+# devstrata generates these files when you run install.sh / daily-workflow scripts.
+
+# ── Secrets (NEVER commit) ──────────────────────────────────────────────────
+headroom.env
+*.env
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# ── devstrata backup files (created by install.sh --force) ───────────────────
+*.bak.*
+*.bak
+.mcp.json.bak.*
+AGENTS.md.bak.*
+docker-compose.yml.bak.*
+
+# ── Graphify output (large, regenerable) ────────────────────────────────────
+graphify-out/
+*.graph.json.tmp
+
+# ── Logs ────────────────────────────────────────────────────────────────────
+*.log
+/tmp/devstrata-*.log
+
+# ── Shannon workspaces (local scan reports — may contain vuln details) ──────
+.shannon/
+
+# ── Hermes local data ───────────────────────────────────────────────────────
+.hermes/sessions/
+.hermes/logs/
+
+# ── GSD state (per-developer, not shared) ───────────────────────────────────
+.gsd/STATE.md
+
+# ── OS junk ────────────────────────────────────────────────────────────────
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/

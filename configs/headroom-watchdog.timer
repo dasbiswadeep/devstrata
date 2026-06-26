@@ -1,0 +1,17 @@
+[Unit]
+Description=devstrata Headroom watchdog (restart proxy if Ollama dies)
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'PATH=/usr/local/bin:/usr/bin:/bin; <PATH-TO-DEVSTRATA>/scripts/headroom-watchdog.sh'
+StandardOutput=append:/var/log/devstrata-watchdog.log
+StandardError=append:/var/log/devstrata-watchdog.log
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=120
+Unit=headroom-watchdog.service
+
+[Install]
+WantedBy=timers.target

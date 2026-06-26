@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "."]
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    },
+    "graphify": {
+      "command": "graphify",
+      "args": ["mcp", "--graph", "./graphify-out/graph.json"]
+    },
+    "helix": {
+      "command": "helix",
+      "args": ["mcp", "--url", "http://localhost:6969"]
+    },
+    "mem0": {
+      "command": "mem0",
+      "args": ["mcp", "--url", "http://localhost:3000"]
+    }
+  }
+}

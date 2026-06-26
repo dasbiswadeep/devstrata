@@ -1,0 +1,15 @@
+[Unit]
+Description=Headroom token-compression proxy (devstrata)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/headroom proxy --port 8787
+Restart=always
+RestartSec=5
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+StandardOutput=append:/var/log/headroom-proxy.log
+StandardError=append:/var/log/headroom-proxy.log
+
+[Install]
+WantedBy=multi-user.target
