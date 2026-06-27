@@ -87,4 +87,14 @@ else
   echo "PASS: README has corrected skills.sh install count"
 fi
 
+# 10. README's stated test-file count must match the actual number of test_*.sh files.
+#     Guards against the 56-vs-62 drift: docs claiming a stale test count.
+ACTUAL_TESTS=$(ls "$REPO"/tests/test_*.sh 2>/dev/null | wc -l | tr -d ' ')
+if grep -qE "$ACTUAL_TESTS test files" "$README"; then
+  echo "PASS: README test-file count matches actual ($ACTUAL_TESTS)"
+else
+  echo "FAIL: README does not state the actual test-file count ($ACTUAL_TESTS test files)"
+  FAIL=1
+fi
+
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1

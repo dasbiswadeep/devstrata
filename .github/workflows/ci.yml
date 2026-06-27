@@ -1,0 +1,32 @@
+name: CI
+
+# Runs the devstrata test suite on every push and PR.
+# The suite is static analysis (no services needed) and finishes in < 5s,
+# so it's safe to run on every change. It catches doc drift, broken links,
+# invalid JSON/YAML, stale claims, and missing config templates.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # jq + yq are used by some structural tests (mcp generation, yaml validity)
+      - name: Install test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          # yq (mikefarah) for yaml validity tests, if not already present
+          if ! command -v yq >/dev/null 2>&1; then
+            sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+            sudo chmod +x /usr/local/bin/yq
+          fi
+
+      - name: Run test suite
+        run: ./scripts/test.sh
