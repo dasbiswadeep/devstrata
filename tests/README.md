@@ -4,8 +4,8 @@
 > Run with: `./scripts/test.sh`
 
 ## Stats
-- **62 test files** (auto-discovered via `tests/test_*.sh`)
-- **~614 individual assertions**
+- **63 test files** (auto-discovered via `tests/test_*.sh`)
+- **~630 individual assertions**
 - Run time: < 5 seconds (static analysis — no services needed)
 
 ## What's tested
