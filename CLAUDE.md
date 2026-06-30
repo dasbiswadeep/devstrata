@@ -112,7 +112,7 @@ The .mcp.json is GENERATED from the single template — never copy a per-profile
 
 ## Testing changes
 ```bash
-./scripts/test.sh          # run the full test suite (63 test files, ~630 assertions, <5s)
+./scripts/test.sh          # run the full test suite (64 test files, ~645 assertions, <5s)
 ./scripts/doctor.sh        # runtime health check against live services
 ./scripts/install.sh --lite # full install test (has interactive prompt)
 ```

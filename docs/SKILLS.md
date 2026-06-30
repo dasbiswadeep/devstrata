@@ -5,6 +5,65 @@
 
 ---
 
+## ECC — the batteries-included alternative to composing your own L4/L5
+
+The default devstrata stack composes its L4 (method) + L5 (skills/agent) layer from
+three independent tools: **Superpowers** (TDD + methodology), **GSD Core** (phase
+workflow), and **skills.sh** (open skill registry). This is the composition path —
+principle #1.
+
+If you want a **single batteries-included pack** instead of composing your own,
+[**ECC**](https://github.com/affaan-m/ECC) (affaan-m/ECC, 223k stars, MIT) is the
+alternative: 277 skills, 67 agents, hooks (session memory, continuous learning,
+verification loops), 12-language rules, a Tkinter dashboard, and a Rust control-plane
+prototype. It's a monolith — you install all of ECC or none of it — so it's an
+**opt-in replacement** for L4+L5, not a composable tool.
+
+### When to pick ECC over the composed default
+
+| Pick the composed default (Superpowers + GSD + skills.sh) | Pick ECC (`--with-ecc`) |
+|---|---|
+| You want to swap individual tools (e.g. replace GSD with another workflow) | You want 277 skills ready to go, no assembly |
+| You want each tool to have its own upstream + license + maintainer | You want one pack, one update path, one maintainer |
+| You're learning how agent stacks compose (principle #10) | You're shipping product and want maximum capability now |
+
+### How to install ECC
+
+ECC is a plugin/marketplace install, not a CLI install — it must be done inside
+your agent. devstrata's `--with-ecc` flag prints the official commands; it does
+not auto-install ECC (that would bypass the marketplace, which is ECC's supported
+path).
+
+```bash
+# Tell devstrata you want ECC (prints the install commands in the output):
+./scripts/install.sh --pro --with-ecc
+
+# Then run these inside Claude Code (the official ECC install path):
+/plugin marketplace add https://github.com/affaan-m/ECC
+/plugin install ecc@ecc
+
+# Or the CLI installer (works across Claude Code, Codex, OpenCode, Cursor):
+npx ecc-install --profile full --target claude
+```
+
+> **Don't layer both.** Installing ECC on top of Superpowers + GSD + skills.sh
+> causes skill-name conflicts. Pick one path: the composed default, OR ECC.
+> See `scripts/agent-isolate.sh` if you need to separate skill dirs.
+
+### What ECC replaces in the devstrata stack
+
+| devstrata layer | Default (composed) | With `--with-ecc` |
+|---|---|---|
+| L4 Method | Superpowers (TDD, brainstorming, subagent-driven) | ECC's 277 skills (includes TDD, verification, parallelization) |
+| L4 Workflow | GSD Core (Discuss→Plan→Execute→Verify→Ship) | ECC's orchestrator family + worktree-lifecycle service |
+| L5 Skills | skills.sh (anthropics, superpowers, graphify, mattpocock) | ECC's 277 skills + 67 agents + hooks |
+| L5 Agent | Hermes Agent (pro) or OpenCode (lite/full) | Hermes/OpenCode still used — ECC is a pack, not an agent shell |
+
+ECC does **not** replace L0-L3 + L6 (Shannon, HelixDB, Mem0, MCP, Headroom,
+Graphify, Obsidian) — those are the composed backbone and ECC doesn't provide them.
+
+---
+
 ## What are skills?
 
 Skills are reusable `SKILL.md` files that inject procedural knowledge into

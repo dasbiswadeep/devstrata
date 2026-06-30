@@ -10,11 +10,15 @@
 set -e
 
 # Parse args in any order. Accept --lite/--full/--pro (profile) and --yes/-y (non-interactive).
+# --with-ecc swaps in ECC (affaan-m/ECC) as a replacement for the L4+L5 layer
+#   (Superpowers + GSD Core + skills.sh). ECC is a 277-skill monolith, not a
+#   composable tool — so it's an opt-in replacement, not part of the default stack.
 # --force regenerates .mcp.json + AGENTS.md even if they exist (use on profile upgrade).
 # Default profile is lite if no profile flag is given.
 PROFILE="lite"
 YES=false
 FORCE=false
+WITH_ECC=false
 for arg in "$@"; do
   case "$arg" in
     --lite)  PROFILE="lite" ;;
@@ -22,15 +26,19 @@ for arg in "$@"; do
     --pro)  PROFILE="pro" ;;
     --yes|-y) YES=true ;;
     --force) FORCE=true ;;
+    --with-ecc) WITH_ECC=true ;;
     -h|--help)
-      echo "Usage: $0 [--lite|--full|--pro] [--yes|-y] [--force]"
-      echo "  --lite   8GB+ RAM, any machine (default)"
-      echo "  --full   16GB+ RAM, adds Mem0 + HelixDB + Shannon"
-      echo "  --pro    24GB+ RAM, adds Hermes + Obsidian"
-      echo "  --yes    Non-interactive (skip prompts; for CI)"
-      echo "  --force  Regenerate .mcp.json + AGENTS.md even if they exist (use on profile upgrade)"
+      echo "Usage: $0 [--lite|--full|--pro] [--yes|-y] [--force] [--with-ecc]"
+      echo "  --lite       8GB+ RAM, any machine (default)"
+      echo "  --full       16GB+ RAM, adds Mem0 + HelixDB + Shannon"
+      echo "  --pro        24GB+ RAM, adds Hermes + Obsidian"
+      echo "  --yes        Non-interactive (skip prompts; for CI)"
+      echo "  --force      Regenerate .mcp.json + AGENTS.md even if they exist (use on profile upgrade)"
+      echo "  --with-ecc   Swap in ECC (affaan-m/ECC, 223k stars, MIT) for L4+L5 instead of"
+      echo "               Superpowers + GSD Core + skills.sh. Batteries-included: 277 skills,"
+      echo "               67 agents, hooks, 12-language rules. Official install path only."
       exit 0 ;;
-    *) echo "Unknown arg: $arg (use --lite/--full/--pro/--yes/--force)"; exit 1 ;;
+    *) echo "Unknown arg: $arg (use --lite/--full/--pro/--yes/--force/--with-ecc)"; exit 1 ;;
   esac
 done
 
@@ -245,6 +253,35 @@ if command -v npx &>/dev/null; then
   npx @opengsd/gsd-core@latest 2>/dev/null || warn "GSD Core install failed — run manually: npx @opengsd/gsd-core@latest"
 fi
 
+# ── Optional: ECC (replaces L4+L5 if --with-ecc) ──────────────────────────────
+# ECC (affaan-m/ECC, 223k stars, MIT) is a batteries-included agent harness pack:
+# 277 skills, 67 agents, hooks, 12-language rules. It's a monolith, not a composable
+# tool — so it's an opt-in REPLACEMENT for Superpowers + GSD Core + skills.sh (L4+L5),
+# not part of the default composed stack. This preserves principle #1 (composition
+# over creation): the default stack composes 11 independent tools; ECC is an explicit
+# user choice to swap in a single-pack alternative.
+if [ "$WITH_ECC" == "true" ]; then
+  step "Optional: ECC (replaces L4+L5 — 277 skills, 67 agents, 12-language rules)"
+  info "ECC is a monolithic harness pack from affaan-m/ECC (223k stars, MIT)."
+  info "It replaces Superpowers + GSD Core + skills.sh with a single batteries-included pack."
+  info "Official install path (verified 2026-06-30):"
+  echo ""
+  echo "  # In Claude Code:"
+  echo "  /plugin marketplace add https://github.com/affaan-m/ECC"
+  echo "  /plugin install ecc@ecc"
+  echo ""
+  echo "  # Or the CLI installer (any harness):"
+  echo "  npx ecc-install --profile full --target claude   # or: codex, opencode, cursor"
+  echo ""
+  warn "ECC is NOT part of the default devstrata stack. It's an explicit opt-in (--with-ecc)."
+  warn "Installing ECC supersedes the Superpowers + GSD + skills.sh skills you just installed."
+  warn "Pick ONE path: the composed default stack, OR ECC. Don't layer both (causes skill conflicts)."
+  warn "To install ECC, run the commands above in your agent. devstrata does not auto-install it"
+  warn "(ECC is a plugin/marketplace install, not a CLI install — must be done inside the agent)."
+  echo ""
+  ok "ECC install path printed. Run the commands above in Claude Code / your agent."
+fi
+
 # ── Full profile additions ────────────────────────────────────────────────────
 
 if [[ "$PROFILE" == "full" || "$PROFILE" == "pro" ]]; then
@@ -432,6 +469,12 @@ if [[ "$PROFILE" == "pro" ]]; then
   echo "  8. Setup Hermes:  hermes setup --portal   (or: hermes setup)"
   echo "  9. Obsidian vault: create ~/obsidian-vault/ + set GRAPHIFY_OBSIDIAN_PATH"
   echo "  10. Pull 32b model: ollama pull qwen2.5-coder:32b   (~20GB, heavy tasks)"
+fi
+if [ "$WITH_ECC" == "true" ]; then
+  echo "  → ECC (--with-ecc): run these in your agent to complete the ECC install:"
+  echo "      /plugin marketplace add https://github.com/affaan-m/ECC"
+  echo "      /plugin install ecc@ecc"
+  echo "    (ECC replaces Superpowers + GSD + skills.sh — don't layer both)"
 fi
 echo ""
 echo "Daily workflow (run from this project directory):"

@@ -201,6 +201,32 @@ Star counts change daily. We re-verify monthly via `./scripts/update.sh`.
 
 ---
 
+---
+
+## Tool: ECC (optional --with-ecc pack)
+
+| Field | Value | Source | Verified | URL |
+|---|---|---|---|---|
+| License | MIT | repo metadata | 2026-06-30 | https://github.com/affaan-m/ECC |
+| Stars | ~223,835 | GitHub API | 2026-06-30 | https://github.com/affaan-m/ECC/stargazers |
+| Nature | **Monolithic pack** — 277 skills, 67 agents, hooks, 12-language rules, dashboard, Rust control-plane prototype | upstream README | 2026-06-30 | https://github.com/affaan-m/ECC |
+| Not a composable tool | Replaces L4+L5 wholesale; cannot swap individual pieces | upstream README + architecture | 2026-06-30 | https://github.com/affaan-m/ECC |
+| Install (Claude Code) | `/plugin marketplace add https://github.com/affaan-m/ECC` then `/plugin install ecc@ecc` | upstream README "Step 1: Install the Plugin" | 2026-06-30 | https://github.com/affaan-m/ECC#step-1-install-the-plugin-recommended |
+| Install (CLI, any harness) | `npx ecc-install --profile full --target claude` (targets: claude, codex, opencode, cursor) | upstream README | 2026-06-30 | https://github.com/affaan-m/ECC |
+| npm package | `ecc-universal` | npm registry | 2026-06-30 | https://www.npmjs.com/package/ecc-universal |
+| Marketplace identifier | `ecc@ecc` (canonical) — not interchangeable with npm `ecc-universal` | upstream README "Naming + Migration Note" | 2026-06-30 | https://github.com/affaan-m/ECC |
+| Maintainer | affaan-m (single maintainer, weekly releases) | repo metadata | 2026-06-30 | https://github.com/affaan-m |
+| Warning: don't stack install methods | "Do not stack install methods. The most common broken setup is: /plugin install first, then install.sh --profile full afterward." | upstream README | 2026-06-30 | https://github.com/affaan-m/ECC#pick-one-path-only |
+
+> **devstrata note:** ECC is **not part of the default composed stack**. It's an
+> opt-in replacement for L4+L5 via `./scripts/install.sh --pro --with-ecc`. The
+> default stack composes Superpowers + GSD Core + skills.sh (independent tools,
+> each with its own upstream). ECC is a single monolith — install all of it or
+> none. This preserves principle #1 (composition over creation) while giving
+> power users a batteries-included option.
+
+---
+
 ## Re-verification procedure
 
 Star counts and install commands drift. To re-verify everything:
