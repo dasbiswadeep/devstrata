@@ -95,7 +95,7 @@ Run ./scripts/test.sh to verify nothing broke
 
 ## Repository layout
 ```
-docs/       ← documentation (incl. SOURCES.md, SUPERVISION.md)
+docs/       ← documentation (incl. SOURCES.md, SUPERVISION.md, FURTHER_READING.md)
 scripts/    ← install.sh, doctor.sh, morning-startup.sh, end-of-day.sh, update.sh, test.sh,
               sync-memory.sh, recommend-profile.sh, version-check.sh, headroom-watchdog.sh,
               validate-mcp.sh, agent-isolate.sh, wsl2-check.sh (13 scripts total)
@@ -112,7 +112,7 @@ The .mcp.json is GENERATED from the single template — never copy a per-profile
 
 ## Testing changes
 ```bash
-./scripts/test.sh          # run the full test suite (62 test files, ~614 assertions, <5s)
+./scripts/test.sh          # run the full test suite (64 test files, ~645 assertions, <5s)
 ./scripts/doctor.sh        # runtime health check against live services
 ./scripts/install.sh --lite # full install test (has interactive prompt)
 ```

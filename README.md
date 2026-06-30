@@ -106,8 +106,8 @@ devstrata/
 │   ├── headroom-watchdog.sh       ← restarts Headroom + Ollama if either dies (KI-010 fix)
 │   ├── agent-isolate.sh           ← separates Hermes/OpenCode skill dirs (KI-006 fix)
 │   ├── wsl2-check.sh              ← Windows/WSL2 setup helper (KI-008 fix)
-│   └── test.sh                    ← run the test suite (62 test files, ~614 assertions)
-├── tests/                         ← integration + structural tests (62 test files)
+│   └── test.sh                    ← run the test suite (64 test files, ~645 assertions, <5s)
+├── tests/                         ← integration + structural tests (64 test files)
 │   ├── README.md                  ← full test catalog by category
 │   └── test_*.sh                  ← structure, syntax, json, yaml, mcp-gen, links, sources,
 │                                    no-personal-data, cornerstones, force/upgrade, idempotency,
@@ -187,6 +187,26 @@ After install, your project directory will have:
 ./scripts/install.sh --full --force
 ```
 
+### ECC — the batteries-included alternative to composing L4/L5
+
+The default stack composes L4 (method) + L5 (skills) from three independent tools:
+Superpowers + GSD Core + skills.sh. If you want a **single 277-skill pack** instead,
+add `--with-ecc` to install ECC ([affaan-m/ECC](https://github.com/affaan-m/ECC),
+223k stars, MIT) as a replacement for L4+L5:
+
+```bash
+# Prints the official ECC install commands (ECC is a plugin install, not CLI):
+./scripts/install.sh --pro --with-ecc
+
+# Then inside Claude Code:
+#   /plugin marketplace add https://github.com/affaan-m/ECC
+#   /plugin install ecc@ecc
+```
+
+ECC is a monolith (277 skills, 67 agents, hooks, 12-language rules) — install all
+of it or none. Don't layer it on top of the composed default (causes skill conflicts).
+See [SKILLS.md](docs/SKILLS.md) for the full comparison + when to pick which.
+
 ---
 
 ## Daily Workflow
@@ -245,6 +265,7 @@ Auto-adoption is a non-goal. Stability and understanding are goals.
 | [MEMORY_DOMAINS.md](docs/MEMORY_DOMAINS.md) | Memory layer split: Mem0/Graphify/Obsidian |
 | [SOURCES.md](docs/SOURCES.md) | Every factual claim, with source URL + date verified |
 | [SUPERVISION.md](docs/SUPERVISION.md) | launchd/systemd templates for process supervision |
+| [FURTHER_READING.md](docs/FURTHER_READING.md) | Build-your-own-X tutorials mapped to each devstrata layer (principle #10) |
 
 ---
 
